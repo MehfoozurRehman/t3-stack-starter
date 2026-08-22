@@ -1,29 +1,69 @@
-# Create T3 App
+# T3 Stack Full-Stack Web App
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A end-to-end type-safe full-stack web application built using the Create T3 App stack (Next.js 15, tRPC, Prisma, and React Query).
 
-## What's next? How do I make an app with this?
+## Overview
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+`t3-test` demonstrates a type-safe full-stack development workflow featuring Next.js App Router, tRPC API routers for type safety between client and server, TanStack React Query for data fetching, and Prisma ORM for database migrations and queries.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Tech Stack
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- **Framework**: [Next.js](https://nextjs.org/) (v15, Turbopack)
+- **API & RPC**: [tRPC](https://trpc.io/) (v11) & [SuperJSON](https://github.com/blitz-js/superjson)
+- **Data Fetching**: [TanStack React Query](https://tanstack.com/query) (v5)
+- **Database & ORM**: [Prisma](https://www.prisma.io/) (v5)
+- **Validation & Environment**: [Zod](https://zod.dev/), `@t3-oss/env-nextjs`
+- **Language**: TypeScript
 
-## Learn More
+## Prerequisites
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- Node.js (v18 or v20 recommended)
+- Package manager (`pnpm` recommended)
+- PostgreSQL / SQLite database instance
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Getting Started
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+1. **Install dependencies**:
+   ```bash
+   pnpm install
+   ```
 
-## How do I deploy this?
+2. **Configure Environment Variables**:
+   Create a `.env` file from `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+   Configure your database connection:
+   ```env
+   DATABASE_URL="postgresql://postgres:password@localhost:5432/t3_test"
+   NODE_ENV="development"
+   ```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+3. **Initialize Database**:
+   ```bash
+   # Push schema to database
+   pnpm db:push
+   # Or run migrations
+   pnpm db:generate
+   ```
+
+4. **Run the Development Server**:
+   ```bash
+   pnpm dev
+   ```
+
+5. **Access the Application**:
+   Open `http://localhost:3000` in your web browser.
+
+## Available Scripts
+
+- `pnpm dev` - Starts the Next.js dev server with Turbopack.
+- `pnpm build` - Builds the application for production.
+- `pnpm start` - Starts the production server.
+- `pnpm db:push` - Synchronizes Prisma schema directly with the database.
+- `pnpm db:studio` - Opens Prisma Studio GUI in browser.
+- `pnpm check` - Lints and runs TypeScript type checks.
+
+## Author
+
+Created by [Mehfooz-ur-Rehman](https://github.com/MehfoozurRehman).
