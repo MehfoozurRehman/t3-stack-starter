@@ -1,69 +1,43 @@
-# T3 Stack Full-Stack Web App
+# T3 Stack Starter
 
-A end-to-end type-safe full-stack web application built using the Create T3 App stack (Next.js 15, tRPC, Prisma, and React Query).
+A Next.js, tRPC and Prisma starter with a single Post model and a create-and-read demo.
 
-## Overview
+**Status:** Starter. The repo is the Create T3 App template, with one Post model and three tRPC procedures, and no features beyond that.
 
-`t3-test` demonstrates a type-safe full-stack development workflow featuring Next.js App Router, tRPC API routers for type safety between client and server, TanStack React Query for data fetching, and Prisma ORM for database migrations and queries.
+## The problem
 
-## Tech Stack
+Full-stack TypeScript apps need the server and client to share types, a database layer and data fetching without hand-written API contracts. This repo wires those pieces together with a small Post example so the pattern is visible end to end.
 
-- **Framework**: [Next.js](https://nextjs.org/) (v15, Turbopack)
-- **API & RPC**: [tRPC](https://trpc.io/) (v11) & [SuperJSON](https://github.com/blitz-js/superjson)
-- **Data Fetching**: [TanStack React Query](https://tanstack.com/query) (v5)
-- **Database & ORM**: [Prisma](https://www.prisma.io/) (v5)
-- **Validation & Environment**: [Zod](https://zod.dev/), `@t3-oss/env-nextjs`
-- **Language**: TypeScript
+## What it does
 
-## Prerequisites
+- A tRPC router (`src/server/api/routers/post.ts`) with `hello`, `create` and `getLatest` procedures, with inputs validated by Zod.
+- A home page (`src/app/page.tsx`) that calls the router on the server and prefetches the latest post.
+- A client component (`src/app/_components/post.tsx`) that reads the latest post with a suspense query and creates new posts through a mutation.
+- A Prisma `Post` model on PostgreSQL (`prisma/schema.prisma`) with an id, name and timestamps.
+- Environment validation with `@t3-oss/env-nextjs` in `src/env.js`, so missing variables fail at startup.
 
-- Node.js (v18 or v20 recommended)
-- Package manager (`pnpm` recommended)
-- PostgreSQL / SQLite database instance
+## How it's built
 
-## Getting Started
+- Next.js 15 App Router with Turbopack, tRPC v11 with SuperJSON, TanStack React Query v5, and Prisma 5.
+- Shared types: the tRPC router is exposed through `src/app/api/trpc/[trpc]/route.ts`. The client helpers in `src/trpc/react.tsx` and the server helper in `src/trpc/server.ts` both use the same router type, so calls are type-checked on both sides.
+- `postinstall` runs `prisma generate`, so the Prisma client exists after install.
 
-1. **Install dependencies**:
-   ```bash
-   pnpm install
-   ```
+## Running it locally
 
-2. **Configure Environment Variables**:
-   Create a `.env` file from `.env.example`:
-   ```bash
-   cp .env.example .env
-   ```
-   Configure your database connection:
-   ```env
-   DATABASE_URL="postgresql://postgres:password@localhost:5432/t3_test"
-   NODE_ENV="development"
-   ```
+Requires Node.js 18 or 20, pnpm, and a PostgreSQL database.
 
-3. **Initialize Database**:
-   ```bash
-   # Push schema to database
-   pnpm db:push
-   # Or run migrations
-   pnpm db:generate
-   ```
+```bash
+pnpm install
+cp .env.example .env     # then set DATABASE_URL
+pnpm db:push             # sync the Prisma schema
+pnpm dev                 # opens on http://localhost:3000
+```
 
-4. **Run the Development Server**:
-   ```bash
-   pnpm dev
-   ```
+Other scripts from `package.json`: `build`, `start`, `check` (lint and typecheck), `db:studio`.
 
-5. **Access the Application**:
-   Open `http://localhost:3000` in your web browser.
+## What's left
 
-## Available Scripts
-
-- `pnpm dev` - Starts the Next.js dev server with Turbopack.
-- `pnpm build` - Builds the application for production.
-- `pnpm start` - Starts the production server.
-- `pnpm db:push` - Synchronizes Prisma schema directly with the database.
-- `pnpm db:studio` - Opens Prisma Studio GUI in browser.
-- `pnpm check` - Lints and runs TypeScript type checks.
-
-## Author
-
-Created by [Mehfooz-ur-Rehman](https://github.com/MehfoozurRehman).
+- Starter only. The Post demo is the entire feature set.
+- Every procedure is a `publicProcedure`, so anyone who can reach the app can create posts. There is no authentication.
+- No tests in the repo.
+- The package name is still `test`, and the README's earlier name was `t3-test`.
