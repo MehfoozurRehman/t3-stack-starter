@@ -3,9 +3,7 @@
  * for Docker builds.
  */
 import "./src/env.js";
-import { createRequire } from 'module';
 
-const require = createRequire(import.meta.url);
 
 /** @type {import("next").NextConfig} */
 const config = {};
